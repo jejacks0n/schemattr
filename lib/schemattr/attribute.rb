@@ -9,6 +9,10 @@ module Schemattr
       @hash = defaults.merge(model[attr_name] || {})
     end
 
+    def defaults
+      self.class.defaults
+    end
+
     private
 
     def method_missing(m, *args)

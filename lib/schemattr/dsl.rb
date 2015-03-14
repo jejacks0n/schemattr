@@ -6,7 +6,7 @@ module Schemattr
       @attribute_class = Class.new(klass_override || Attribute)
       @defaults = defaults = {}
       instance_eval(&block)
-      _define_method("defaults") { defaults }
+      @attribute_class.define_singleton_method("defaults") { defaults }
     end
 
     protected
