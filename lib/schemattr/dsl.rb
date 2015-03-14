@@ -43,7 +43,10 @@ module Schemattr
     end
 
     def boolean(name, options = {})
-      _define name, true, options, setter: lambda { |val| sync_value(self[name] = !!val, options[:sync]) }
+      _define name, true, options, setter: lambda { |val|
+        val = false if val == "false"
+        sync_value(self[name] = !!val, options[:sync])
+      }
     end
 
     alias_method :text, :string
