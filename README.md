@@ -39,6 +39,7 @@ schema and setting a default right there in the code. No migrations, no hassles,
 
 1. [Installation](#installation)
 2. [Usage](#usage)
+  - [Field types](#field-types)
   - [Delegating](#delegating)
   - [Strict mode](#strict-mode-vs-arbitrary-fields)
   - [Overriding](#overriding-functionality)
@@ -91,9 +92,9 @@ various fields, specify their types, defaults if needed, and additional options.
 ```ruby
 class User < ActiveRecord::Base
   attribute_schema :settings do
-    field :opted_in, :boolean, default: true
-    field :email_list_advanced, :boolean, default: false
-    field :email_list_expert, :boolean, default: false
+    boolean :opted_in, default: true
+    boolean :email_list_advanced, default: false
+    boolean :email_list_expert, default: false
   end
 end
 ```
@@ -110,6 +111,28 @@ user.settings.email_group_expert? # => false
 If we save the user at this point, these settings will be persisted. We can also make changes to them at this point, and
 when they're persisted they'll include whatever we've changed them to be. If we don't save the user, that's ok too --
 they'll just be the defaults if we ever ask again.
+
+### Field types
+
+The various field types are outlined below. When you define a string field for instance, the value will be coerced into
+a string at the time that it's set.
+
+type     | description
+---------|--------------
+boolean  | boolean value
+string   | string value  
+text     | same as string type
+integer  | number value
+bigint   | same as integer
+float    | floating point number value
+decimal  | same as float
+datetime | datetime object
+time     | time object (stored the same as datetime)
+date     | date object
+
+You can additionally define your own types using `field :foo, :custom_type` and there will no coercion at the time the
+field is set -- this is intended for when you need something that doesn't care what type it is. This generally makes it
+harder to use in forms however.
 
 ### Delegating
 
@@ -162,7 +185,7 @@ class UserSettings < Schemattr::Attribute
   def opted_out
     !self[:opted_in]
   end
-  alias :opted_out, :opted_out?
+  alias_method :opted_out, :opted_out?
   
   def opted_out=(val)
     opted_in = !val

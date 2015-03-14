@@ -57,10 +57,6 @@ describe Schemattr::ActiveRecordExtension do
       expect(subject.settings.skier?).to eq(false)
     end
 
-    it "raises an exception if the value isn't a hash" do
-      expect { subject.settings = "foo" }.to raise_error(ArgumentError, "Setting settings requires a hash")
-    end
-
     it "forces setting boolean fields to boolean values" do
       subject.settings = { skier: "foo", active: "true" }
       expect(subject.settings.skier).to eq(true)
@@ -69,6 +65,10 @@ describe Schemattr::ActiveRecordExtension do
       expect(subject.settings.active?).to eq(true)
       expect(subject.active).to eq(true)
       expect(subject.active?).to eq(true)
+    end
+
+    it "raises an exception if the value isn't a hash" do
+      expect { subject.settings = "foo" }.to raise_error(ArgumentError, "Setting settings requires a hash")
     end
 
     it "doesn't allow specifying arbitrary fields" do
@@ -88,9 +88,18 @@ describe Schemattr::ActiveRecordExtension do
     end
 
     it "can migrate one field to a new field" do
-      subject[:preferences] = { 'likes_beer' => false, 'likes_drinking' => true }
-      expect(subject.likes_drinking?).to eq(false)
-      expect(subject.likes_beer?).to eq(nil) # removed
+      subject[:preferences] = { "likes_programming" => true }
+      expect(subject.likes_code?).to eq(true)
+
+      subject.likes_code = false
+      expect(subject.likes_code?).to eq(false)
+
+      expect(subject[:preferences]).to eq(subject.preferences.defaults.merge("likes_code" => false))
+
+      subject.save!
+      subject.reload
+
+      expect(subject.likes_code?).to eq(false)
     end
   end
 

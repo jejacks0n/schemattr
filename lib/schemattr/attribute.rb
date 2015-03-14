@@ -24,6 +24,21 @@ module Schemattr
       end
     end
 
+    def migrate_value(val, from)
+      return val unless from
+      if (old_val = self[from]) != nil
+        @hash.delete(from.to_s)
+        old_val
+      else
+        val
+      end
+    end
+
+    def sync_value(val, to)
+      model[to] = val if to
+      val
+    end
+
     def []=(key, val)
       hash[key.to_s] = val
       model[attr_name] = hash
