@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
   end
 
   attribute_schema :settings do
-    field :active, :boolean, default: false, sync: :active
+    field :active, :boolean, sync: :active, default: false
     field :snowboarder, :boolean, default: true
     field :skier, :boolean, default: false
   end
@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
     field :likes_cats, :boolean, default: false
     field :likes_dogs, :boolean, default: true
     field :likes_beer, :boolean, default: true
+    field :likes_drinking, :boolean, from: :likes_beer, default: false
   end
 
   attribute_schema :general, strict: false do

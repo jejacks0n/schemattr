@@ -92,8 +92,8 @@ various fields, specify their types, defaults if needed, and additional options.
 class User < ActiveRecord::Base
   attribute_schema :settings do
     field :opted_in, :boolean, default: true
-    field :email_group_advanced, :boolean, default: false
-    field :email_group_expert, :boolean, default: false
+    field :email_list_advanced, :boolean, default: false
+    field :email_list_expert, :boolean, default: false
   end
 end
 ```
@@ -211,7 +211,21 @@ end
 
 ### Renaming fields
 
-TODO: add functionality to rename fields.
+Schemattr makes it easy to rename fields as well. Let's say you've got a field named `opted_in`, as the examples have
+shown thus far. But you've added new email lists, and you think `opted_in` is too vague. Like, opted in for what?
+
+We can create a new field that is correctly named, and specify what attribute we want to pull the value from.
+
+```ruby
+  attribute_schema :settings do
+    # field :opted_in, :boolean, default: true
+    field :email_list_beginner, :boolean, from: :opted_in, default: true
+  end
+```
+
+Specifying the `from: :opted_in` option will tell Schemattr to look for the value that may have already been defined in
+`opted_in` before the rename. This allows for slow migrations, but you can also write a migration to ensure this happens
+quickly.
 
 ### Syncing attributes
 
@@ -224,13 +238,13 @@ leave it, as the case may be) on the users table.
 
 ```ruby
   attribute_schema :settings do
-    field :opted_in, :boolean, default: true, sync: true
+    field :email_list_beginner, :boolean, default: true, sync: :opted_in
   end
 ```
 
 ```ruby
 user = User.new
-user.settings.opted_in = false
+user.settings.email_list_beginner = false
 user.read_attribute(:opted_in) # => false
 user.save!
 User.where(opted_in: false) # => user

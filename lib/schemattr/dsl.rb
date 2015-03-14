@@ -1,12 +1,14 @@
 module Schemattr
   class DSL
-    attr_accessor :attribute_class, :delegated
+    attr_accessor :attribute_class, :delegated, :defaults
 
     def initialize(klass_override = nil, &block)
       @attribute_class = Class.new(klass_override || Attribute)
-      @defaults = defaults = {}
       @delegated = []
+      @defaults = defaults = {}
+
       instance_eval(&block)
+
       @attribute_class.define_singleton_method("defaults") { defaults }
     end
 
@@ -20,10 +22,10 @@ module Schemattr
           self[name] = !!val
           model[options[:sync]] = !!val if options[:sync]
         end
-        _define_getter(name, true, delegated)
+        _define_getter(name, true, delegated, options[:from])
       else
         _define_setter(name, options[:sync], delegated)
-        _define_getter(name, false, delegated)
+        _define_getter(name, false, delegated, options[:from])
       end
     end
 
@@ -39,8 +41,21 @@ module Schemattr
       _define_method("#{name}=", delegated, &block)
     end
 
-    def _define_getter(name, boolean = false, delegated = false, &block)
-      block = lambda { self[name] } unless block_given?
+    def _define_getter(name, boolean = false, delegated = false, from = nil, &block)
+      unless block_given?
+        if from
+          block = lambda do
+            if (val = self[from]) != nil
+              @hash.delete(from.to_s)
+              val
+            else
+              self[name]
+            end
+          end
+        else
+          block = lambda { self[name] }
+        end
+      end
       _define_method(name, delegated, &block)
       _define_method("#{name}?", delegated, &block) if boolean
     end

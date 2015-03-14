@@ -86,6 +86,12 @@ describe Schemattr::ActiveRecordExtension do
       expect(subject.likes_beer?).to eq(false)
       expect(subject.preferences.likes_beer?).to eq(false)
     end
+
+    it "can migrate one field to a new field" do
+      subject[:preferences] = { 'likes_beer' => false, 'likes_drinking' => true }
+      expect(subject.likes_drinking?).to eq(false)
+      expect(subject.likes_beer?).to eq(nil) # removed
+    end
   end
 
   describe "general" do
