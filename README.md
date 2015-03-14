@@ -3,6 +3,8 @@ Schemattr
 
 [![Gem Version](https://img.shields.io/gem/v/schemattr.svg)](http://badge.fury.io/rb/schemattr)
 [![Build Status](https://img.shields.io/travis/modeset/schemattr.svg)](https://travis-ci.org/modeset/schemattr)
+[![Code Climate](https://codeclimate.com/github/modeset/schemattr/badges/gpa.svg)](https://codeclimate.com/github/modeset/schemattr)
+[![Test Coverage](https://codeclimate.com/github/modeset/schemattr/badges/coverage.svg)](https://codeclimate.com/github/modeset/schemattr)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 [![Dependency Status](https://gemnasium.com/modeset/schemattr.svg)](https://gemnasium.com/modeset/schemattr)
 
