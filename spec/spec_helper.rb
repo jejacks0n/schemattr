@@ -28,7 +28,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     # turn on active record logging if needed
-    ActiveRecord::Base.logger = Logger.new(STDOUT)
+    # ActiveRecord::Base.logger = Logger.new(STDOUT)
   end
 
   # clean up our table after each spec
