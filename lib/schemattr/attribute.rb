@@ -26,11 +26,11 @@ module Schemattr
 
     def migrate_value(val, from)
       return val unless from
-      if (old_val = self[from]) != nil
+      if (old_val = self[from]).nil?
+        val
+      else
         @hash.delete(from.to_s)
         old_val
-      else
-        val
       end
     end
 
