@@ -5,8 +5,12 @@ module Schemattr
         raise ArgumentError, "No schema provided, block expected for schemaless_attribute." unless block_given?
 
         name = name.to_sym
-        attribute_class = DSL.new(options[:class], &block).attribute_class
-        delegate(*attribute_class.instance_methods(false), to: name) if options[:delegated]
+        attribute_schema = DSL.new(options[:class], &block)
+        if options[:delegated]
+          delegate(*attribute_schema.attribute_class.instance_methods(false), to: name)
+        else
+          delegate(*attribute_schema.delegated, to: name)
+        end
 
         define_method "#{name}=" do |val|
           raise ArgumentError, "Setting #{name} requires a hash" unless val.is_a?(Hash)
@@ -19,7 +23,7 @@ module Schemattr
         end
 
         define_method "#{name}" do
-          _schemaless_attributes[name] ||= attribute_class.new(self, name, options[:strict] == false)
+          _schemaless_attributes[name] ||= attribute_schema.attribute_class.new(self, name, options[:strict] == false)
         end
       end
     end

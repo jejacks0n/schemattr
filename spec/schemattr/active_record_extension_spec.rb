@@ -33,12 +33,18 @@ describe Schemattr::ActiveRecordExtension do
       subject.settings.active = true
       expect(subject.settings.active?).to eq(true)
       expect(subject.active?).to eq(true)
+      expect(subject.read_attribute(:active)).to eq(true)
 
       subject.save!
       subject = User.last
 
       expect(subject.active?).to eq(true)
       expect(subject.settings.active?).to eq(true)
+
+      subject.active = false
+      expect(subject.active?).to eq(false)
+      expect(subject.settings.active?).to eq(false)
+      expect(subject.read_attribute(:active)).to eq(false)
     end
 
     it "allows setting field values via a hash" do
