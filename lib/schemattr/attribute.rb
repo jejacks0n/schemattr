@@ -9,6 +9,10 @@ module Schemattr
       @hash = defaults.merge(model[attr_name] || {})
     end
 
+    def field_names
+      (self.class.defaults.keys || []).map { |k| k.to_sym }
+    end
+
     def defaults
       self.class.defaults
     end
