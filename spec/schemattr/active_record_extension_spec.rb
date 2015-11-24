@@ -59,12 +59,26 @@ describe Schemattr::ActiveRecordExtension do
 
     it "forces setting boolean fields to boolean values" do
       subject.settings = { skier: "foo", active: "true" }
-      expect(subject.settings.skier).to eq(true)
+      expect(subject.settings.skier).to eq(false)
 
       expect(subject.settings.active).to eq(true)
       expect(subject.settings.active?).to eq(true)
       expect(subject.active).to eq(true)
       expect(subject.active?).to eq(true)
+    end
+
+    it "coerces sane truthy/falsey values to acutal booleans" do
+      subject.update_attributes(settings: { active: "1" })
+      expect(subject.settings.active).to eq(true)
+
+      subject.update_attributes(settings: { active: "0" })
+      expect(subject.settings.active).to eq(false)
+
+      subject.update_attributes(settings: { active: "on" })
+      expect(subject.settings.active).to eq(true)
+
+      subject.update_attributes(settings: { active: "off" })
+      expect(subject.settings.active).to eq(false)
     end
 
     it "raises an exception if the value isn't a hash" do
