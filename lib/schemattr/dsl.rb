@@ -44,8 +44,8 @@ module Schemattr
 
     def boolean(name, options = {})
       _define name, true, options, setter: lambda { |val|
-        val = false if val == "false"
-        sync_value(self[name] = !!val, options[:sync])
+        bool = ActiveRecord::Type::Boolean.new.type_cast_from_user(val)
+        sync_value(self[name] = bool, options[:sync])
       }
     end
 
