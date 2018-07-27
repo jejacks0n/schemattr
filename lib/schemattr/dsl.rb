@@ -44,7 +44,7 @@ module Schemattr
 
     def boolean(name, options = {})
       _define name, true, options, setter: lambda { |val|
-        bool = ActiveRecord::Type::Boolean.new.type_cast_from_user(val)
+        bool = ActiveRecord::Type::Boolean.new.deserialize(val)
         sync_value(self[name] = bool, options[:sync])
       }
     end
