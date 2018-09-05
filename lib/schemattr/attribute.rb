@@ -17,6 +17,10 @@ module Schemattr
       self.class.defaults
     end
 
+    def as_json(*args)
+      @hash
+    end
+
     private
 
     def method_missing(m, *args)
