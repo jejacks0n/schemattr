@@ -59,7 +59,7 @@ describe Schemattr::ActiveRecordExtension do
 
     it "forces setting boolean fields to boolean values" do
       subject.settings = { skier: "foo", active: "true" }
-      expect(subject.settings.skier).to eq(false)
+      expect(subject.settings.skier).to eq(true)
 
       expect(subject.settings.active).to eq(true)
       expect(subject.settings.active?).to eq(true)

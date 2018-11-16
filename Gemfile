@@ -1,4 +1,4 @@
-ruby "2.2.0"
+ruby "2.5.1"
 source "https://rubygems.org"
 
 gemspec
@@ -8,6 +8,3 @@ gem "activerecord"
 
 gem "rake"
 gem "rspec"
-
-# io services
-gem "codeclimate-test-reporter", group: :test, require: false
