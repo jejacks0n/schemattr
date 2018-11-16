@@ -7,6 +7,12 @@ rescue LoadError
 end
 
 begin
+  Bundler::GemHelper.install_tasks
+rescue RuntimeError
+  Bundler::GemHelper.install_tasks name: "schemattr"
+end
+
+begin
   require "rspec/core/rake_task"
   RSpec::Core::RakeTask.new(:spec)
   task default: :spec

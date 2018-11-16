@@ -1,2 +1,3 @@
 Gemfile.lock
 .rubocop.yml
+pkg/schemattr-0.0.1.gem
