@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.authors     = ["jejacks0n"]
   s.email       = ["jejacks0n@gmail.com"]
   s.homepage    = "http://github.com/jejacks0n/bitbot"
-  s.summary     = "Schemattr: Simple schema-less column definitions for ActiveRecord."
+  s.summary     = "Schemattr: Simple schema-less column definitions for ActiveRecord"
   s.description = "Write schema-less attributes in ActiveRecord using a helpful and flexible DSL."
   s.license     = "MIT"
   s.files       = Dir["{lib}/**/*"] + ["MIT.LICENSE", "README.md"]
