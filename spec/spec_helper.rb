@@ -1,4 +1,8 @@
 require "active_record"
+
+require "simplecov"
+SimpleCov.start
+
 require "schemattr"
 
 # connect to an in memory db and create our table
