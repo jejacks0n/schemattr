@@ -1,21 +1,15 @@
-#!/usr/bin/env rake
-
 begin
   require "bundler/setup"
 rescue LoadError
   puts "You must `gem install bundler` and `bundle install` to run rake tasks"
 end
 
-begin
-  Bundler::GemHelper.install_tasks
-rescue RuntimeError
-  Bundler::GemHelper.install_tasks name: "schemattr"
-end
+# useful bundler gem tasks
+Bundler::GemHelper.install_tasks
 
-begin
-  require "rspec/core/rake_task"
-  RSpec::Core::RakeTask.new(:spec)
-  task default: :spec
-rescue LoadError
-  puts "Unable to locate rspec"
-end
+# load in rspec tasks
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new(:spec)
+
+# setup the default task
+task default: [:spec]

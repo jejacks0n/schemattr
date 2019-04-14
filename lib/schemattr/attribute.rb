@@ -23,38 +23,38 @@ module Schemattr
 
     private
 
-    def method_missing(m, *args)
-      if @allow_arbitrary_attributes
-        self[$1] = args[0] if args.length == 1 && /^(\w+)=$/ =~ m
-        self[m.to_s.gsub(/\?$/, "")]
-      else
-        raise NoMethodError, "undefined method '#{m}' for #{self.class}"
+      def method_missing(m, *args)
+        if @allow_arbitrary_attributes
+          self[$1] = args[0] if args.length == 1 && /^(\w+)=$/ =~ m
+          self[m.to_s.gsub(/\?$/, "")]
+        else
+          raise NoMethodError, "undefined method '#{m}' for #{self.class}"
+        end
       end
-    end
 
-    def migrate_value(val, from)
-      return val unless from
-      if (old_val = self[from]).nil?
+      def migrate_value(val, from)
+        return val unless from
+        if (old_val = self[from]).nil?
+          val
+        else
+          @hash.delete(from.to_s)
+          old_val
+        end
+      end
+
+      def sync_value(val, to)
+        model[to] = val if to
         val
-      else
-        @hash.delete(from.to_s)
-        old_val
       end
-    end
 
-    def sync_value(val, to)
-      model[to] = val if to
-      val
-    end
+      def []=(key, val)
+        hash[key.to_s] = val
+        model[attr_name] = hash
+        val
+      end
 
-    def []=(key, val)
-      hash[key.to_s] = val
-      model[attr_name] = hash
-      val
-    end
-
-    def [](key)
-      hash[key.to_s]
-    end
+      def [](key)
+        hash[key.to_s]
+      end
   end
 end

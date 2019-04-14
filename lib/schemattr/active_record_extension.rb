@@ -39,8 +39,8 @@ module Schemattr
 
     private
 
-    def _schemaless_attributes
-      @_schemaless_attributes ||= {}
-    end
+      def _schemaless_attributes
+        @_schemaless_attributes ||= {}
+      end
   end
 end

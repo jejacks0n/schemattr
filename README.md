@@ -2,17 +2,15 @@ Schemattr
 =========
 
 [![Gem Version](https://img.shields.io/gem/v/schemattr.svg)](http://badge.fury.io/rb/schemattr)
-[![Build Status](https://img.shields.io/travis/modeset/schemattr.svg)](https://travis-ci.org/modeset/schemattr)
-[![Code Climate](https://codeclimate.com/github/modeset/schemattr/badges/gpa.svg)](https://codeclimate.com/github/modeset/schemattr)
-[![Test Coverage](https://codeclimate.com/github/modeset/schemattr/badges/coverage.svg)](https://codeclimate.com/github/modeset/schemattr)
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-[![Dependency Status](https://gemnasium.com/modeset/schemattr.svg)](https://gemnasium.com/modeset/schemattr)
+[![Build Status](https://img.shields.io/travis/jejacks0n/schemattr.svg)](https://travis-ci.org/jejacks0n/schemattr)
+[![Code Climate](https://codeclimate.com/github/jejacks0n/schemattr/badges/gpa.svg)](https://codeclimate.com/github/jejacks0n/schemattr)
+[![Test Coverage](https://codeclimate.com/github/jejacks0n/schemattr/badges/coverage.svg)](https://codeclimate.com/github/jejacks0n/schemattr)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 Schemattr is an ActiveRecord extension that provides a helpful schema-less attribute DSL. It can be used to define a
 simple schema for a single attribute that can change over time without having to migrate existing data.
 
 ### Background
-
 Let's say you have a User model, and that model has a simple concept of settings -- just one for now. It's a boolean
 named `opted_in`, and it means that the user is opted in to receive email updates. Sweet, we go add a migration for this
 setting and migrate. Ship it, we're done with that feature.
@@ -34,39 +32,12 @@ methods, can keep a real column synced with one if its fields, and more.
 If you're using Schemattr and want to add a new setting field, it's as simple as adding a new field to the attribute
 schema and setting a default right there in the code. No migrations, no hassles, easy deployment.
 
-
-## Table of Contents
-
-1. [Installation](#installation)
-2. [Usage](#usage)
-  - [Field types](#field-types)
-  - [Delegating](#delegating)
-  - [Strict mode](#strict-mode-vs-arbitrary-fields)
-  - [Overriding](#overriding-functionality)
-  - [Renaming fields](#renaming-fields)
-  - [Syncing attributes](#syncing-attributes)
-
-
 ## Installation
-
-Add it to your Gemfile:
 ```ruby
-gem 'schemattr'
+gem "schemattr"
 ```
-
-And then execute:
-```shell
-$ bundle
-```
-
-Or install it yourself as:
-```shell
-$ gem install schemattr
-```
-
 
 ## Usage
-
 In the examples we assume there's already a User model and table.
 
 First, let's create a migration to add your schema-less attribute. In postgres you can use a JSON column. We use the
@@ -113,7 +84,6 @@ when they're persisted they'll include whatever we've changed them to be. If we 
 they'll just be the defaults if we ever ask again.
 
 ### Field types
-
 The various field types are outlined below. When you define a string field for instance, the value will be coerced into
 a string at the time that it's set.
 
@@ -135,14 +105,13 @@ field is set -- this is intended for when you need something that doesn't care w
 harder to use in forms however.
 
 ### Delegating
-
 If you don't like the idea of having to access these attributes at `user.settings` you can specify that you'd like them
 delegated. This adds delegation of the methods that exist on settings to the User instances.
 
 ```ruby
-  attribute_schema :settings, delegated: true do
-    field :opted_in, :boolean, default: true
-  end
+attribute_schema :settings, delegated: true do
+  field :opted_in, :boolean, default: true
+end
 ```
 
 ```ruby
@@ -153,7 +122,6 @@ user.opted_in? # => false
 ```
 
 ### Strict mode vs. arbitrary fields
-
 By default, Schemattr doesn't allow arbitrary fields to be added, but it supports it. When strict mode is disabled, it
 allows any arbitrary field to be set or asked for.
 
@@ -161,9 +129,9 @@ allows any arbitrary field to be set or asked for.
 access them through the attribute that you've defined -- in our case, it's `settings`.
 
 ```ruby
-  attribute_schema :settings, delegated: true, strict: false do
-    field :opted_in, :boolean, default: true
-  end
+attribute_schema :settings, delegated: true, strict: false do
+  field :opted_in, :boolean, default: true
+end
 ```
 
 ```ruby
@@ -175,7 +143,6 @@ user.foo # => NoMethodError
 ```
 
 ### Overriding
-
 Schemattr provides the ability to specify your own attribute class. By doing so you can provide your own getters and
 setters and do more complex logic. In this example we're providing the inverse of `opted_in` with an `opted_out` psuedo
 field.
@@ -188,15 +155,15 @@ class UserSettings < Schemattr::Attribute
   alias_method :opted_out, :opted_out?
   
   def opted_out=(val)
-    opted_in = !val
+    self.opted_in = !val
   end
 end
 ```
 
 ```ruby
-  attribute_schema :settings, class: UserSettings do
-    field :opted_in, :boolean, default: true
-  end
+attribute_schema :settings, class: UserSettings do
+  field :opted_in, :boolean, default: true
+end
 ```
 
 ```ruby
@@ -211,7 +178,6 @@ Our custom `opted_out` psuedo field won't be persisted, because it's not a defin
 existing field that is persisted (`opted_in`).
 
 #### Getters and setters
-
 When overriding the attribute class with your own, you can provide your own custom getters and setters as well. These
 will not be overridden by whatever Schemattr thinks they should do. Take this example, where when someone turns on or
 off a setting we want to subscribe/unsubscribe them to an email list via a third party.
@@ -233,17 +199,16 @@ end
 *Note*: This is not a real world scenario but serves our purposes of describing an example. 
 
 ### Renaming fields
-
 Schemattr makes it easy to rename fields as well. Let's say you've got a field named `opted_in`, as the examples have
 shown thus far. But you've added new email lists, and you think `opted_in` is too vague. Like, opted in for what?
 
 We can create a new field that is correctly named, and specify what attribute we want to pull the value from.
 
 ```ruby
-  attribute_schema :settings do
-    # field :opted_in, :boolean, default: true
-    field :email_list_beginner, :boolean, from: :opted_in, default: true
-  end
+attribute_schema :settings do
+  # field :opted_in, :boolean, default: true
+  field :email_list_beginner, :boolean, from: :opted_in, default: true
+end
 ```
 
 Specifying the `from: :opted_in` option will tell Schemattr to look for the value that may have already been defined in
@@ -260,9 +225,9 @@ Let's say we want to be able to be able to easily query users who have opted in.
 leave it, as the case may be) on the users table.
 
 ```ruby
-  attribute_schema :settings do
-    field :email_list_beginner, :boolean, default: true, sync: :opted_in
-  end
+attribute_schema :settings do
+  field :email_list_beginner, :boolean, default: true, sync: :opted_in
+end
 ```
 
 ```ruby
@@ -281,9 +246,7 @@ things in sync easier. The second issue can arise is when this attribute is set 
 using things like `user.update_column(:opted_in, false)`, and `User.update_all(opted_in: false)` will allow things to
 get out of sync.
 
-
 ## Querying a JSON column
-
 This has come up a little bit, and so it's worth documenting -- though it has very little to do with Schemattr. When you
 have a JSON column in postgres, you can query values from within that column in various ways.
 
@@ -295,13 +258,9 @@ User.where("(settings->>'opted_in')::boolean") # boolean query
 User.where("settings->>'string_value' = ?", "some string") # string query 
 ```
 
-
 ## License
+Licensed under the [MIT License](http://creativecommons.org/licenses/MIT/)
 
-Licensed under the [MIT License](http://creativecommons.org/licenses/MIT)
-
-Copyright 2015 [Mode Set](https://github.com/modeset)
-
+Copyright 2019 [jejacks0n](https://github.com/jejacks0n)
 
 ## Make Code Not War
-![crest](https://secure.gravatar.com/avatar/aa8ea677b07f626479fd280049b0e19f?s=75)

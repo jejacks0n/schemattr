@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 $:.push File.expand_path("../lib", __FILE__)
 
 # Maintain your gem's version:
@@ -8,12 +10,12 @@ Gem::Specification.new do |s|
   s.name        = "schemattr"
   s.version     = Schemattr::VERSION
   s.authors     = ["jejacks0n"]
-  s.email       = ["info@modeset.com"]
-  s.homepage    = "https://github.com/modeset/schemattr"
-  s.summary     = ""
-  s.description = ""
+  s.email       = ["jejacks0n@gmail.com"]
+  s.homepage    = "http://github.com/jejacks0n/bitbot"
+  s.summary     = "Schemattr: Simple schema-less column definitions for ActiveRecord."
+  s.description = "Write schema-less attributes in ActiveRecord using a helpful and flexible DSL."
   s.license     = "MIT"
-
   s.files       = Dir["{lib}/**/*"] + ["MIT.LICENSE", "README.md"]
-  s.test_files  = `git ls-files -- {spec}/*`.split("\n")
+
+  s.required_ruby_version = "~> 2.4"
 end
