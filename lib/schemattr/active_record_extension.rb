@@ -23,7 +23,7 @@ module Schemattr
         end
 
         define_method "#{name}" do
-          _schemaless_attributes[name] ||= attribute_schema.attribute_class.new(self, name, options[:strict] == false)
+          schemaless_attributes[name] ||= attribute_schema.attribute_class.new(self, name, options[:strict] == false)
         end
       end
     end
@@ -33,13 +33,13 @@ module Schemattr
     end
 
     def reload(*_args)
-      _schemaless_attributes.keys.each { |name| _schemaless_attributes[name] = nil }
+      schemaless_attributes.keys.each { |name| schemaless_attributes[name] = nil }
       super
     end
 
     private
 
-      def _schemaless_attributes
+      def schemaless_attributes
         @_schemaless_attributes ||= {}
       end
   end
