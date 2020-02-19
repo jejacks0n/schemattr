@@ -15,6 +15,11 @@ module Schemattr
     protected
 
       def field(name, type, options = {})
+        if options[:from].present?
+          options[:value_from] = options.delete(:from)
+          log_warning(name, type, options[:value_from])
+        end
+
         if respond_to?(type, true)
           send(type, name, options)
         else
@@ -58,7 +63,7 @@ module Schemattr
 
       def define(name, boolean, options, blocks = {})
         setter = blocks[:setter] || lambda { sync_value(self[name] = val, options[:sync]) }
-        getter = blocks[:getter] || lambda { migrate_value(self[name], options[:from]) }
+        getter = blocks[:getter] || lambda { migrate_value(self[name], options[:value_from]) }
         default_for(name, options[:default])
         method_for("#{name}=", options[:sync], &setter)
         method_for(name, options[:sync], &getter)
@@ -67,6 +72,14 @@ module Schemattr
 
       def default_for(name, default)
         @defaults[name.to_s] = default
+      end
+
+      def log_warning(name, type, old_name)
+        message = <<-HEREDOC
+          Schemattr Warning: #{name}, #{type}, from: #{old_name}
+          You are using the keyword `from:` instead of the new `value_from:`. This is deprecated and will be removed in a future version."
+        HEREDOC
+        puts message
       end
 
       def method_for(name, delegated = false, &block)

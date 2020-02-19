@@ -1,4 +1,5 @@
-Schemattr
+# Schemattr
+
 =========
 
 [![Gem Version](https://img.shields.io/gem/v/schemattr.svg)](http://badge.fury.io/rb/schemattr)
@@ -11,6 +12,7 @@ Schemattr is an ActiveRecord extension that provides a helpful schema-less attri
 simple schema for a single attribute that can change over time without having to migrate existing data.
 
 ### Background
+
 Let's say you have a User model, and that model has a simple concept of settings -- just one for now. It's a boolean
 named `opted_in`, and it means that the user is opted in to receive email updates. Sweet, we go add a migration for this
 setting and migrate. Ship it, we're done with that feature.
@@ -33,18 +35,20 @@ If you're using Schemattr and want to add a new setting field, it's as simple as
 schema and setting a default right there in the code. No migrations, no hassles, easy deployment.
 
 ## Installation
+
 ```ruby
 gem "schemattr"
 ```
 
 ## Usage
+
 In the examples we assume there's already a User model and table.
 
 First, let's create a migration to add your schema-less attribute. In postgres you can use a JSON column. We use the
 postgres JSON type as our example because the JSON type allows queries and indexing, and hstore does annoying things to
 booleans. We don't need to set our default value to an empty object because Schemattr handles that for us.
 
-*Note*: If you're using a different database provider, like sqlite3 for instance, you can use a text column and tell
+_Note_: If you're using a different database provider, like sqlite3 for instance, you can use a text column and tell
 ActiveRecord to serialize that column (e.g. `serialize :settings` in your model). Though, you won't be able to easily
 query in these cases so consider your options.
 
@@ -75,8 +79,8 @@ Notice that we've done nothing else, but we already have a working version of wh
 ```
 user = User.new
 user.settings.opted_in? # => true
-user.settings.email_group_advanced? # => false 
-user.settings.email_group_expert? # => false 
+user.settings.email_group_advanced? # => false
+user.settings.email_group_expert? # => false
 ```
 
 If we save the user at this point, these settings will be persisted. We can also make changes to them at this point, and
@@ -84,27 +88,29 @@ when they're persisted they'll include whatever we've changed them to be. If we 
 they'll just be the defaults if we ever ask again.
 
 ### Field types
+
 The various field types are outlined below. When you define a string field for instance, the value will be coerced into
 a string at the time that it's set.
 
-type     | description
----------|--------------
-boolean  | boolean value
-string   | string value  
-text     | same as string type
-integer  | number value
-bigint   | same as integer
-float    | floating point number value
-decimal  | same as float
-datetime | datetime object
-time     | time object (stored the same as datetime)
-date     | date object
+| type     | description                               |
+| -------- | ----------------------------------------- |
+| boolean  | boolean value                             |
+| string   | string value                              |
+| text     | same as string type                       |
+| integer  | number value                              |
+| bigint   | same as integer                           |
+| float    | floating point number value               |
+| decimal  | same as float                             |
+| datetime | datetime object                           |
+| time     | time object (stored the same as datetime) |
+| date     | date object                               |
 
 You can additionally define your own types using `field :foo, :custom_type` and there will no coercion at the time the
 field is set -- this is intended for when you need something that doesn't care what type it is. This generally makes it
 harder to use in forms however.
 
 ### Delegating
+
 If you don't like the idea of having to access these attributes at `user.settings` you can specify that you'd like them
 delegated. This adds delegation of the methods that exist on settings to the User instances.
 
@@ -122,10 +128,11 @@ user.opted_in? # => false
 ```
 
 ### Strict mode vs. arbitrary fields
+
 By default, Schemattr doesn't allow arbitrary fields to be added, but it supports it. When strict mode is disabled, it
 allows any arbitrary field to be set or asked for.
 
-*Note*: When delegated and strict mode is disabled, you cannot set arbitrary fields on the model directly and must
+_Note_: When delegated and strict mode is disabled, you cannot set arbitrary fields on the model directly and must
 access them through the attribute that you've defined -- in our case, it's `settings`.
 
 ```ruby
@@ -143,6 +150,7 @@ user.foo # => NoMethodError
 ```
 
 ### Overriding
+
 Schemattr provides the ability to specify your own attribute class. By doing so you can provide your own getters and
 setters and do more complex logic. In this example we're providing the inverse of `opted_in` with an `opted_out` psuedo
 field.
@@ -153,7 +161,7 @@ class UserSettings < Schemattr::Attribute
     !self[:opted_in]
   end
   alias_method :opted_out, :opted_out?
-  
+
   def opted_out=(val)
     self.opted_in = !val
   end
@@ -178,6 +186,7 @@ Our custom `opted_out` psuedo field won't be persisted, because it's not a defin
 existing field that is persisted (`opted_in`).
 
 #### Getters and setters
+
 When overriding the attribute class with your own, you can provide your own custom getters and setters as well. These
 will not be overridden by whatever Schemattr thinks they should do. Take this example, where when someone turns on or
 off a setting we want to subscribe/unsubscribe them to an email list via a third party.
@@ -196,9 +205,10 @@ class UserSettings < Schemattr::Attribute
 end
 ```
 
-*Note*: This is not a real world scenario but serves our purposes of describing an example. 
+_Note_: This is not a real world scenario but serves our purposes of describing an example.
 
 ### Renaming fields
+
 Schemattr makes it easy to rename fields as well. Let's say you've got a field named `opted_in`, as the examples have
 shown thus far. But you've added new email lists, and you think `opted_in` is too vague. Like, opted in for what?
 
@@ -207,13 +217,15 @@ We can create a new field that is correctly named, and specify what attribute we
 ```ruby
 attribute_schema :settings do
   # field :opted_in, :boolean, default: true
-  field :email_list_beginner, :boolean, from: :opted_in, default: true
+  field :email_list_beginner, :boolean, value_from: :opted_in, default: true
 end
 ```
 
-Specifying the `from: :opted_in` option will tell Schemattr to look for the value that may have already been defined in
+Specifying the `value_from: :opted_in` option will tell Schemattr to look for the value that may have already been defined in
 `opted_in` before the rename. This allows for slow migrations, but you can also write a migration to ensure this happens
 quickly.
+
+This previously used the keyword `from`, and this keyword is deprecated.
 
 ### Syncing attributes
 
@@ -247,6 +259,7 @@ using things like `user.update_column(:opted_in, false)`, and `User.update_all(o
 get out of sync.
 
 ## Querying a JSON column
+
 This has come up a little bit, and so it's worth documenting -- though it has very little to do with Schemattr. When you
 have a JSON column in postgres, you can query values from within that column in various ways.
 
@@ -255,10 +268,11 @@ these are the common scenarios that we've used.
 
 ```
 User.where("(settings->>'opted_in')::boolean") # boolean query
-User.where("settings->>'string_value' = ?", "some string") # string query 
+User.where("settings->>'string_value' = ?", "some string") # string query
 ```
 
 ## License
+
 Licensed under the [MIT License](http://creativecommons.org/licenses/MIT/)
 
 Copyright 2019 [jejacks0n](https://github.com/jejacks0n)
