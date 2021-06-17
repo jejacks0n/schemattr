@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   serialize :preferences
   serialize :general
   serialize :custom
+  serialize :types
 
   class CustomAttribute < Schemattr::Attribute
     def custom?
@@ -29,5 +30,9 @@ class User < ActiveRecord::Base
 
   attribute_schema :custom, class: CustomAttribute do
     field :custom, :boolean
+  end
+
+  attribute_schema :types do
+    field :hash_field, :hash
   end
 end

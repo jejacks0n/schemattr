@@ -39,6 +39,10 @@ module Schemattr
         define name, false, options, setter: lambda { |val| sync_value(self[name] = val.to_f, options[:sync]) }
       end
 
+      def hash(name, options = {})
+        define name, false, options, setter: lambda { |val| sync_value(self[name] = val.to_h, options[:sync]) }
+      end
+
       def datetime(name, options = {})
         define name, false, options
       end

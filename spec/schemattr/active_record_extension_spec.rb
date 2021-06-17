@@ -142,4 +142,12 @@ describe Schemattr::ActiveRecordExtension do
       expect(subject.custom.custom?).to eq(true)
     end
   end
+
+  describe "types" do
+    it "allows setting a json field" do
+      subject.types.hash_field = {foo: "bar"}
+
+      expect(subject.types.hash_field).to eq(foo: "bar")
+    end
+  end
 end
