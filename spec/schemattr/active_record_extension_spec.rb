@@ -68,16 +68,16 @@ describe Schemattr::ActiveRecordExtension do
     end
 
     it "coerces sane truthy/falsey values to acutal booleans" do
-      subject.update_attributes(settings: { active: "1" })
+      subject.update_attribute(:settings, { active: "1" })
       expect(subject.settings.active).to eq(true)
 
-      subject.update_attributes(settings: { active: "0" })
+      subject.update_attribute(:settings, { active: "0" })
       expect(subject.settings.active).to eq(false)
 
-      subject.update_attributes(settings: { active: "on" })
+      subject.update_attribute(:settings, { active: "on" })
       expect(subject.settings.active).to eq(true)
 
-      subject.update_attributes(settings: { active: "off" })
+      subject.update_attribute(:settings, { active: "off" })
       expect(subject.settings.active).to eq(false)
     end
 
