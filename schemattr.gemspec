@@ -16,6 +16,4 @@ Gem::Specification.new do |s|
   s.description = "Write schema-less attributes in ActiveRecord using a helpful and flexible DSL."
   s.license     = "MIT"
   s.files       = Dir["{lib}/**/*"] + ["MIT.LICENSE", "README.md"]
-
-  s.required_ruby_version = "=> 2.4"
 end
