@@ -1,10 +1,11 @@
-# Schemattr
+# Schemattr - Schema-ish ActiveRecord attributes 
 
 [![Gem Version](https://img.shields.io/gem/v/schemattr.svg?label=gem%20version)](https://rubygems.org/gems/schemattr)
 [![MIT License](https://img.shields.io/github/license/jejacks0n/schemattr.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jejacks0n/schemattr/ci.yml.svg?label=build%20status)](https://github.com/jejacks0n/schemattr/actions/workflows/ci.yml)
 [![Maintainability](https://img.shields.io/codeclimate/coverage-letter/jejacks0n/schemattr.svg?label=maintainability)](https://codeclimate.com/github/jejacks0n/schemattr/maintainability)
 [![Test Coverage](https://img.shields.io/codeclimate/coverage/jejacks0n/schemattr.svg?label=test%20coverage)](https://codeclimate.com/github/jejacks0n/schemattr/test_coverage)
+[![RubyGems](https://img.shields.io/gem/dt/schemattr.svg?label=rubygems%20downloads)](https://rubygems.org/gems/schemattr)
 
 Schemattr is an ActiveRecord extension that provides a helpful schema-less attribute DSL. It can be used to define a
 simple schema for a single attribute that can change over time without having to migrate existing data.
@@ -32,11 +33,23 @@ methods, can keep a real column synced with one if its fields, and more.
 If you're using Schemattr and want to add a new setting field, it's as simple as adding a new field to the attribute
 schema and setting a default right there in the code. No migrations, no hassles, easy deployment.
 
-## Installation
+## Download and Installation
+
+Add this line to your Gemfile:
 
 ```ruby
 gem "schemattr"
 ```
+
+Or install the latest version with RubyGems:
+
+```bash
+gem install schemattr
+```
+
+Source code can be downloaded as part of the project on GitHub:
+
+* https://github.com/jejacks0n/schemattr
 
 ## Usage
 
@@ -91,7 +104,7 @@ The various field types are outlined below. When you define a string field for i
 a string at the time that it's set.
 
 | type     | description                               |
-| -------- | ----------------------------------------- |
+|----------|-------------------------------------------|
 | boolean  | boolean value                             |
 | string   | string value                              |
 | text     | same as string type                       |
@@ -102,6 +115,7 @@ a string at the time that it's set.
 | datetime | datetime object                           |
 | time     | time object (stored the same as datetime) |
 | date     | date object                               |
+| hash     | hash object                               |
 
 You can additionally define your own types using `field :foo, :custom_type` and there will no coercion at the time the
 field is set -- this is intended for when you need something that doesn't care what type it is. This generally makes it
