@@ -1,10 +1,11 @@
 # Schemattr
 
-[![Gem Version](https://img.shields.io/gem/v/schemattr.svg)](http://badge.fury.io/rb/schemattr)
+[![Gem Version](https://badge.fury.io/rb/schemattr.svg)](https://badge.fury.io/rb/schemattr)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+
 [![Build Status](https://img.shields.io/travis/jejacks0n/schemattr.svg)](https://travis-ci.org/jejacks0n/schemattr)
 [![Code Climate](https://codeclimate.com/github/jejacks0n/schemattr/badges/gpa.svg)](https://codeclimate.com/github/jejacks0n/schemattr)
 [![Test Coverage](https://codeclimate.com/github/jejacks0n/schemattr/badges/coverage.svg)](https://codeclimate.com/github/jejacks0n/schemattr)
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 Schemattr is an ActiveRecord extension that provides a helpful schema-less attribute DSL. It can be used to define a
 simple schema for a single attribute that can change over time without having to migrate existing data.
