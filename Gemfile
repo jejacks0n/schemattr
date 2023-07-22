@@ -5,6 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gemspec
 
+gem "rake"
+
 gem "rubocop", ">= 1.25.1", require: false
 gem "rubocop-minitest", require: false
 gem "rubocop-packaging", require: false
