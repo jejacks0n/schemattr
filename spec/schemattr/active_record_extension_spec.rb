@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Schemattr::ActiveRecordExtension do
@@ -68,16 +70,16 @@ describe Schemattr::ActiveRecordExtension do
     end
 
     it "coerces sane truthy/falsey values to acutal booleans" do
-      subject.update_attribute(:settings, { active: "1" })
+      subject.update(settings: { active: "1" })
       expect(subject.settings.active).to eq(true)
 
-      subject.update_attribute(:settings, { active: "0" })
+      subject.update(settings: { active: "0" })
       expect(subject.settings.active).to eq(false)
 
-      subject.update_attribute(:settings, { active: "on" })
+      subject.update(settings: { active: "on" })
       expect(subject.settings.active).to eq(true)
 
-      subject.update_attribute(:settings, { active: "off" })
+      subject.update(settings: { active: "off" })
       expect(subject.settings.active).to eq(false)
     end
 

@@ -1,7 +1,5 @@
 # Schemattr
 
-=========
-
 [![Gem Version](https://img.shields.io/gem/v/schemattr.svg)](http://badge.fury.io/rb/schemattr)
 [![Build Status](https://img.shields.io/travis/jejacks0n/schemattr.svg)](https://travis-ci.org/jejacks0n/schemattr)
 [![Code Climate](https://codeclimate.com/github/jejacks0n/schemattr/badges/gpa.svg)](https://codeclimate.com/github/jejacks0n/schemattr)

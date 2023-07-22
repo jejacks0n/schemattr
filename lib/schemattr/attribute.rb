@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Schemattr
   class Attribute
     attr_accessor :model, :attr_name, :hash
@@ -22,7 +24,6 @@ module Schemattr
     end
 
     private
-
       def method_missing(m, *args)
         if @allow_arbitrary_attributes
           self[$1] = args[0] if args.length == 1 && /^(\w+)=$/ =~ m
