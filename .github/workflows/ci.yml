@@ -9,26 +9,27 @@ defaults:
 
 jobs:
   specs:
-    name: 'run-specs'
-    # skip on [ci skip] and do not run 2 on push and interal PR
+    name: 'specs'
+    # skip on [ci skip] and do not run 2 on push and internal PR
     if: (contains(github.event.commits[0].message, '[ci skip]') == false) &&  (github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository)
     continue-on-error: ${{ matrix.allow_failure || false }}
 
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.0
           bundler-cache: true
-
+      - name: Setup Code Climate test-reporter
+        run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
+          ./cc-test-reporter before-build
       - name: run specs
         run: |
           bundle exec rake
-
-      # needs the right code climate reporter id
-      # - name: Test & publish code coverage
-      #   uses: paambaati/codeclimate-action@v3.0.0
-      #   env:
-      #     CC_TEST_REPORTER_ID: <code_climate_reporter_id>
+      - name: Publish code coverage
+        run: |
+          export GIT_BRANCH="${GITHUB_REF/refs\/heads\//}"
+          ./cc-test-reporter after-build -r ${{secrets.CC_TEST_REPORTER_ID}}
