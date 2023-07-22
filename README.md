@@ -1,5 +1,7 @@
 # Schemattr - Schema-ish ActiveRecord attributes 
 
+<img alt="Shemattr" width="150" height="144" src="https://user-images.githubusercontent.com/13765/255353418-61285561-09cf-4208-8dd5-c00455e4288a.png" align="right" hspace="20">
+
 [![Gem Version](https://img.shields.io/gem/v/schemattr.svg?label=gem%20version)](https://rubygems.org/gems/schemattr)
 [![MIT License](https://img.shields.io/github/license/jejacks0n/schemattr.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/jejacks0n/schemattr/ci.yml.svg?label=build%20status)](https://github.com/jejacks0n/schemattr/actions/workflows/ci.yml)
