@@ -1,6 +1,8 @@
-require "active_record"
+# frozen_string_literal: true
 
+require "active_record"
 require "simplecov"
+
 SimpleCov.start
 
 require "schemattr"

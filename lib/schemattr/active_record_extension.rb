@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Schemattr
   module ActiveRecordExtension
     module ClassMethods
@@ -38,7 +40,6 @@ module Schemattr
     end
 
     private
-
       def schemaless_attributes
         @_schemaless_attributes ||= {}
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Schemattr
   class DSL
     attr_accessor :attribute_class, :delegated, :defaults
@@ -13,7 +15,6 @@ module Schemattr
     end
 
     protected
-
       def field(name, type, options = {})
         if options[:from].present?
           options[:value_from] = options.delete(:from)
@@ -64,7 +65,6 @@ module Schemattr
       alias_method :time, :datetime
 
     private
-
       def define(name, boolean, options, blocks = {})
         setter = blocks[:setter] || lambda { sync_value(self[name] = val, options[:sync]) }
         getter = blocks[:getter] || lambda { migrate_value(self[name], options[:value_from]) }

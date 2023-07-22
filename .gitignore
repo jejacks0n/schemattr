@@ -1,5 +1,7 @@
-.env
-pkg/
-tmp/
-coverage
-Gemfile.lock
+/.bundle/
+/doc/
+/pkg/
+/tmp/
+/bin/
+/test/dummy/
+/coverage/
