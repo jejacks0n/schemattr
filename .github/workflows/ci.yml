@@ -1,11 +1,9 @@
-name: Run tests
-
+name: Build
 on: [push, pull_request]
 
 defaults:
   run:
     shell: bash
-
 
 jobs:
   specs:
