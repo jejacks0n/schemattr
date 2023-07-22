@@ -1,11 +1,10 @@
 # Schemattr
 
-[![Gem Version](https://badge.fury.io/rb/schemattr.svg)](https://badge.fury.io/rb/schemattr)
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
-
-[![Build Status](https://img.shields.io/travis/jejacks0n/schemattr.svg)](https://travis-ci.org/jejacks0n/schemattr)
-[![Code Climate](https://codeclimate.com/github/jejacks0n/schemattr/badges/gpa.svg)](https://codeclimate.com/github/jejacks0n/schemattr)
-[![Test Coverage](https://codeclimate.com/github/jejacks0n/schemattr/badges/coverage.svg)](https://codeclimate.com/github/jejacks0n/schemattr)
+[![Gem Version](https://img.shields.io/gem/v/schemattr.svg?label=gem%20version)](https://rubygems.org/gems/schemattr)
+[![MIT License](https://img.shields.io/github/license/jejacks0n/schemattr.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/jejacks0n/schemattr/ci.yml.svg?label=build%20status)](https://github.com/jejacks0n/schemattr/actions/workflows/ci.yml)
+[![Maintainability](https://img.shields.io/codeclimate/coverage-letter/jejacks0n/schemattr.svg?label=maintainability)](https://codeclimate.com/github/jejacks0n/schemattr/maintainability)
+[![Test Coverage](https://img.shields.io/codeclimate/coverage/jejacks0n/schemattr.svg?label=test%20coverage)](https://codeclimate.com/github/jejacks0n/schemattr/test_coverage)
 
 Schemattr is an ActiveRecord extension that provides a helpful schema-less attribute DSL. It can be used to define a
 simple schema for a single attribute that can change over time without having to migrate existing data.
