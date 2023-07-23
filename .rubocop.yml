@@ -1,5 +1,4 @@
 require:
-  - rubocop-minitest
   - rubocop-packaging
   - rubocop-performance
   - rubocop-rails
@@ -12,13 +11,6 @@ AllCops:
   SuggestExtensions: false
   Exclude:
     - 'bin/**/*'
-    - '**/tmp/**/*'
-    - '**/templates/**/*'
-    - '**/vendor/**/*'
-    - 'actionpack/lib/action_dispatch/journey/parser.rb'
-    - 'actionmailbox/test/dummy/**/*'
-    - 'actiontext/test/dummy/**/*'
-    - '**/node_modules/**/*'
 
 Performance:
   Exclude:
@@ -326,16 +318,4 @@ Performance/RedundantStringChars:
   Enabled: true
 
 Performance/StringInclude:
-  Enabled: true
-
-Minitest/AssertRaisesWithRegexpArgument:
-  Enabled: true
-
-Minitest/AssertWithExpectedArgument:
-  Enabled: true
-
-Minitest/SkipEnsure:
-  Enabled: true
-
-Minitest/UnreachableAssertion:
   Enabled: true

@@ -287,8 +287,12 @@ User.where("settings->>'string_value' = ?", "some string") # string query
 
 ## License
 
-Licensed under the [MIT License](http://creativecommons.org/licenses/MIT/)
+This project is released under the MIT license:
 
-Copyright 2019 [jejacks0n](https://github.com/jejacks0n)
+* https://opensource.org/licenses/MIT
+
+Copyright 2023 [jejacks0n](https://github.com/jejacks0n)
 
 ## Make Code Not War
+
+[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
